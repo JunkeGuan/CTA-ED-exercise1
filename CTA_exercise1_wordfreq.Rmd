@@ -469,11 +469,9 @@ tidy_des$raceword <- as.integer(
 ```{r}
 race_counts <- tidy_des %>%
   group_by(year) %>%
-  mutate(year_total = n()) %>%
-  filter(raceword == 1) %>%
   summarise(
-    sum_race = n(),
-    year_total = min(year_total)
+    sum_race = sum(raceword),
+    year_total = n()
   )
 ```
 
@@ -485,7 +483,6 @@ ggplot(race_counts, aes(year, sum_race / year_total, group = 1)) +
   scale_y_continuous(labels = scales::percent_format()) +
   theme_tufte(base_family = "Helvetica")
 ```
-
 
 3. Knit your document (click 'Knit' towards the top of your screen) when you've completed your exercise. It should create an html output file. 
 
