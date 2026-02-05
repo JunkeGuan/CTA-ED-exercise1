@@ -1,7 +1,7 @@
 ---
 title: "CTA_exercise1_wordfreq - with answers"
-author: "Marion Lieutaud & class"
-date: "28/01/2026"
+author: "Junke Guan"
+date: "5/02/2026"
 output: html_document
 ---
 
@@ -458,7 +458,32 @@ ggplot(edbf_counts_both, aes(year, sum_wom / year_total, group=genre, color=genr
 2. Choose another set of terms by which to filter (e.g., race-related words) and plot their frequency over time.
 
 ```{r}
-# show me
+tidy_des$raceword <- as.integer(
+  grepl(
+    "race|racial|ethnic|ethnicity|migration|migrant|immigrant|refugee",
+    tidy_des$word
+  )
+)
+```
+
+```{r}
+race_counts <- tidy_des %>%
+  group_by(year) %>%
+  mutate(year_total = n()) %>%
+  filter(raceword == 1) %>%
+  summarise(
+    sum_race = n(),
+    year_total = min(year_total)
+  )
+```
+
+```{r}
+ggplot(race_counts, aes(year, sum_race / year_total, group = 1)) +
+  geom_line() +
+  xlab("Year") +
+  ylab("% race-related words") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  theme_tufte(base_family = "Helvetica")
 ```
 
 
